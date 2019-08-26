@@ -10,7 +10,7 @@ print(x2_data)
 print(y_data)
 #%% Set Running Rate
 learning_rate = 0.1
-#%% Set variable A and b
+#%% Set variable a1, a2 and b(y-intercept)
 a1 = tf.Variable(tf.random_uniform([1],0,10, dtype=tf.float64, seed=0))
 a2 = tf.Variable(tf.random_uniform([1],0,10,dtype=tf.float64,seed=0))
 b = tf.Variable(tf.random_uniform([1],0,100,dtype=tf.float64, seed=0))
