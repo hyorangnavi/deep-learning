@@ -47,10 +47,11 @@ np.random.seed(seed)
 tf.set_random_seed(seed)
 
 #%% read data and cut as ',' set x as variables y as class
-dataset = np.loadtxt(file_path, delimiter=',')
+#dataset = np.loadtxt(file_path, delimiter=',')
+dataset = df.values
 X = dataset[:, 0:8]
 Y = dataset[:, 8]
-
+print(dataset)
 #%% set model input->Dense12(relu)->Dense8(relu)->output(Sigmoid)
 model = Sequential()
 model.add(Dense(12, input_dim=8, activation='relu'))
