@@ -1,5 +1,5 @@
 #%%
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers.core import Dense
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 import pandas as pd
@@ -11,6 +11,7 @@ import os
 seed = 201908
 np.random.seed(seed)
 tf.set_random_seed(seed)
+model = None
 
 #%%
 df_pre = pd.read_csv('dataset/Wine.csv', header=None, names=["주석산농도", "아세트산농도", "구현산농도", "잔류 당분 농도",
@@ -24,8 +25,6 @@ dataset = df.values
 column_size = dataset.shape[1]-1
 X = dataset[:, 0:column_size]
 Y = dataset[:, column_size]
-#%%
-del model
 #%%
 model = Sequential()
 model.add(Dense(30, input_dim=column_size, activation='relu'))
@@ -43,8 +42,8 @@ MODEL_DIR = './model/Wine/'
 if not os.path.exists(MODEL_DIR):
     os.mkdir(MODEL_DIR)
 
-modelpath = MODEL_DIR + "{epoch:02d}-{val_loss:.4f}.hdf5"
-
+#modelpath = MODEL_DIR + "{epoch:02d}-{val_loss:.4f}.hdf5"
+modelpath = MODEL_DIR + "best_model.hdf5"
 #%% patience is like Yellow Card
 checkpointer_callback = ModelCheckpoint(
     filepath=modelpath, monitor='val_loss', verbose=1, save_best_only=True)
@@ -63,6 +62,11 @@ plt.plot(x_len,y_acc,"o",c="blue",markersize=3)
 plt.show()
 
 #%%
-print("Accuracy is :%.4f" %(model.evaluate(X,Y)[1]))
+if model is not None:
+    del model
+model = load_model(modelpath)
+
+#%%
+print('Loaded Model\'s Accuracy: %.4f' %(model.evaluate(X,Y)[1]))
 
 #%%
