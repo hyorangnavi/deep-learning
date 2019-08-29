@@ -60,8 +60,9 @@ y_vloss = history.history['val_loss']
 y_acc = history.history['acc']
 
 x_len = np.arange(len(y_acc))
-plt.plot(x_len,y_vloss,"o",c="red",markersize=3)
-plt.plot(x_len,y_acc,"o",c="blue",markersize=3)
+plt.plot(x_len,y_vloss,"-",c="red",markersize=3)
+plt.plot(x_len,y_acc,"-",c="blue",markersize=3)
+plt.ylim([0,1])
 plt.show()
 
 #%%
