@@ -25,7 +25,8 @@ dataset = df.values
 column_size = dataset.shape[1]-1
 X = dataset[:, 0:column_size]
 Y = dataset[:, column_size]
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=seed)
+X_train, X_test, Y_train, Y_test = train_test_split(
+    X, Y, test_size=0.3, random_state=seed)
 
 #%%
 model = None
@@ -50,19 +51,20 @@ modelpath = MODEL_DIR + "best_model.hdf5"
 #%% patience is like Yellow Card
 checkpointer_callback = ModelCheckpoint(
     filepath=modelpath, monitor='val_loss', verbose=1, save_best_only=True)
-early_stopping_callback = EarlyStopping(monitor='val_loss', patience=100) #if model doesn't improve next prev 100 times, then stop
-#%% 
+# if model doesn't improve next prev 100 times, then stop
+early_stopping_callback = EarlyStopping(monitor='val_loss', patience=100)
+#%%
 history = model.fit(X_train, Y_train, validation_split=0.33, epochs=3500,
                     batch_size=500, verbose=False, callbacks=[checkpointer_callback, early_stopping_callback])
 
-#%% 
+#%%
 y_vloss = history.history['val_loss']
 y_acc = history.history['acc']
 
 x_len = np.arange(len(y_acc))
-plt.plot(x_len,y_vloss,"-",c="red",markersize=3)
-plt.plot(x_len,y_acc,"-",c="blue",markersize=3)
-plt.ylim([0,1])
+plt.plot(x_len, y_vloss, "-", c="red", markersize=3)
+plt.plot(x_len, y_acc, "-", c="blue", markersize=3)
+plt.ylim([0, 1])
 plt.show()
 
 #%%
@@ -71,6 +73,6 @@ if model is not None:
 model = load_model(modelpath)
 
 #%%
-print('Loaded Model\'s Accuracy: %.4f' %(model.evaluate(X_test,Y_test)[1]))
+print('Loaded Model\'s Accuracy: %.4f' % (model.evaluate(X_test, Y_test)[1]))
 
 #%%
