@@ -1,8 +1,9 @@
 #%%
 from keras.datasets import mnist
+from keras.utils import np_utils
 import matplotlib.pyplot as plt
 #%%
-(X_train, Y_class_train), (X_test, Y_class_train) = mnist.load_data()
+(X_train, Y_class_train), (X_test, Y_class_test) = mnist.load_data()
 
 #%%
 print("학습된 이미지 수 : {:d}개".format(X_train.shape[0]))
@@ -18,10 +19,21 @@ for x in X_train[test_num]:
         sys.stdout.write('%d\t' % i)
     sys.stdout.write('\n')
 
-X_train[test_num]
-print("Total Cell size is: ", len(X_train[test_num])*len(X_train[test_num][0]))
+cell_size = len(X_train[test_num])*len(X_train[test_num][0])
+print("Total Cell size is: ",cell_size)
 
 #%%
+X_train = X_train.reshape(X_train.shape[0],-1).astype('float64') / 255
+#%%
+X_test = X_test.reshape(X_test.shape[0],-1).astype('float64') / 255
 
+#%%
+print("class : {:d}".format(Y_class_train[test_num]))
+Y_class_train = np_utils.to_categorical(Y_class_train,10)
+Y_class_test = np_utils.to_categorical(Y_class_test,10)
+
+#%%
+print(Y_class_train[test_num])
+print(Y_class_test[test_num])
 
 #%%
