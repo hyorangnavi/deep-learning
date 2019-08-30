@@ -50,11 +50,14 @@ model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
 
 #%%
-MODEL_DIR = './model/Boston/'
-if not os.path.exists(MODEL_DIR):
-    os.mkdir(MODEL_DIR)
-
-modelpath = MODEL_DIR + "best_model.hdf5"
+model.fit(X_train, Y_train, validation_split=0.33, epochs=1000,
+                    batch_size=10, verbose=False)
 
 #%%
-checkpointer_callback = M
+Y_prediction = model.predict(X_test).flatten()
+for i in range(len(Y_test)):
+    label = Y_test[i]
+    prediction = Y_prediction[i]
+    print("실가격 : %.3f, 예상가격: %.3f" %(label, prediction))
+
+#%%
