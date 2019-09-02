@@ -1,6 +1,9 @@
 #%%
+from keras.models import Sequential
 from keras.datasets import mnist
 from keras.utils import np_utils
+from keras.layers import Dense
+from keras.callbacks import ModelCheckpoint, EarlyStopping
 import matplotlib.pyplot as plt
 #%%
 (X_train, Y_class_train), (X_test, Y_class_test) = mnist.load_data()
@@ -37,3 +40,4 @@ print(Y_class_train[test_num])
 print(Y_class_test[test_num])
 
 #%%
+model = Sequ
